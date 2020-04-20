@@ -15,14 +15,15 @@ animalfood = db.Table('animal_food',
     db.Column('food_id', db.Integer, db.ForgeinKey('food.id'))
     )
 
-# in den Models ergänzen
 supplierfood = db.Table('supplier_food',
     db.Column('supplier_id', db.Integer, db.ForgeinKey('suppliers.id')),
     db.Column('food_id', db.Integer, db.ForgeinKey('food.id'))
     )
 
-class Supplier_Shelter(db.Model):
-    pass
+suppliershelter = db.Table('supplier_shelter',
+    db.Column('supplier_id', db.Integer, db.ForgeinKey('suppliers.id')),
+    db.Column('shelter_id', db.Integer, db.ForgeinKey('shelter.id'))
+)
 
 #function which returns a string when you add a new row to the table
 ###     def __repr__(self):
@@ -58,27 +59,26 @@ class Takers(db.Model): #im Modell vgl. mit Animal_Record
     first_name = db.Column(db.String(20), nullable=False)
     last_name  = db.Column(db.String(20), nullable=False)
     #relationship 
-        # animal
+    animal = db.relationship('Animal', backref='takers', lazy='dynamic', nullable=True)
     #forgeinkey
-        # adress
+    address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
     
 
-class Adresses(db.Model):
+class Addresses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     #relationships
-        #shelters
-        #vets
-        #suppliers
-        #takers
+        shelter = db.relationship('Shelters', backref='addresses', lazy='dynamic', nullable=True)
+        vet = db.relationship('Vets', backref='addresses', lazy='dynamic', nullable=True)
+        supplier = db.relationship('Suppliers', backref='addresses', lazy='dynamic', nullable=True)
+        taker = db.relationship('Takers', backref='addresses', lazy='dynamic', nullable=True)
     #forgein keys
 
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(50), nullable=False)
-    #Many-to-Many to build
-    # Supplier_Food
-    # Animal_Food
-
+    #Many-to-Many
+    supplie = db.relationship('Food', secondary=supplierfood, backref=db.backref('supplied_by'), lazy='dynamic')
+    meal = db.relationship('Food', secondary=animalfood, backref=db.backref('eaten_by'), lazy = 'dynamic')
     #relationships
 
     #forgein keys
@@ -87,12 +87,17 @@ class Shelters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     shelter_name = db.Column(db.String(20), nullable=False)
     founded_at = = db.Column(db.DateTime, default=datetime.utcnow) # zeiteintrag noch ändern
+    #many-to-many
+    delivery = db.relationship('Shelters', secondary=suppliershelter, backref=db.backref('delivery'), lazy = 'dynamic')
     #relationships
         #(Managers, Donations, Volunteers)
+        manager = db.relationship('Managers', backref='shelters', lazy='dynamic', nullable=True)
+        donation = db.relationship('Donations', backref='shelters', lazy='dynamic', nullable=True)
+        volunteer = db.relationship('Volunteers', backref='shelters', lazy='dynamic', nullable=True)
     #forgein keys
-        #vets forgein key
-        #adress forgein key
-    #many-to-many supplier_shelter
+        vet = db.Column(db.Integer, db.ForgeinKey('vets.id'), nullable=True)
+        address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
+
 
 class Managers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -103,7 +108,7 @@ class Managers(db.Model):
     #relationships
 
     #forgein keys
-        #shelter_id
+        shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=True)
 
 class Volunteers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -114,7 +119,7 @@ class Volunteers(db.Model):
     #relationships
 
     #forgein keys
-        #shelter_id forgein key
+        shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=True)
 
 class Donations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -122,8 +127,8 @@ class Donations(db.Model):
     #relationships
 
     #forgein keys
-        #shelter_id forgein key
-        #donor_id forgein key
+        shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=True)
+        donor = db.Column(db.Integer, db.ForgeinKey('donors.id'), nullable=True)
 
 class Donors(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -131,17 +136,19 @@ class Donors(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name  = db.Column(db.String(20), nullable=False)
     #relationships
-        #donations
+    donation = db.relationship('Donations', backref='donors', lazy='dynamic', nullable=True)
     #forgein keys
 
 class Suppliers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     iban = db.Column(db.String(40), nullable=False)
+    # Many-to-Many
+    meal = db.relationship('Suppliers', secondary=supplierfood, backref=db.backref('meal'), lazy = 'dynamic')
+    delivery = db.relationship('Suppliers', secondary=suppliershelter, backref=db.backref('delivery'), lazy = 'dynamic')
     #relationships
 
     #forgein keys
-        # supplier_address
-    # Many-to-Many (mit Food und Shelter)
+    address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
     
 
 class Vets(db.Model):
@@ -151,6 +158,6 @@ class Vets(db.Model):
     gender = db.Column(db.String(1), nullable=False)
     birthday = db.Column(db.DateTime, default=datetime.utcnow)
     #relationships
-        #shelter
+    shelter = db.relationship('Shelter', backref='vets', lazy='dynamic', nullable=True)
     #forgein keys
-        #clinic_adress
+    address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
