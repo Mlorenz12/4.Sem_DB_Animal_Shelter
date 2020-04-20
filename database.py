@@ -178,3 +178,56 @@ class Vets(db.Model):
 
     def __repr__(self):
       return '<Vets %r>' % self.id
+
+
+# Start der eigentlichen Funktionen der Applikation
+## Überlegen ob die DB nicht komplett in ein anderes File umgelagert wird
+## Variablen der Funktionen und Querys müssen noch angepasst werden
+
+@app.route('/', methods=['POST', 'GET'])
+def index():
+    if request.method == 'POST':
+        new_thing_content = request.form['content']
+        new_task = <Table>(<column1>=new_thing_content) # more columns possible
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = <Table>.query.order_by(<Table>.<column2>).all()
+        return render_template('index.html', tasks=tasks)
+
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    task_to_delete = <Table>.query.get_or_404(id)
+
+    try:
+        db.session.delete(task_to_delete)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was a problem deleting that task'
+
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    task = <Table>.query.get_or_404(id)
+
+    if request.method == 'POST':
+        task.content = request.form['content']
+
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue updating your task'
+
+    else:
+        return render_template('update.html', task=task)
+
+if __name__ == "__main__":
+    app.run(debug=True)
