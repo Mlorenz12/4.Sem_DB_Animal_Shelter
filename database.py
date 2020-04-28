@@ -39,7 +39,7 @@ class Animals(db.Model):
     #Many-to-Many
     meal = db.relationship('Animals', secondary=animalfood, backref=db.backref('eaten_by'), lazy = 'dynamic') # Table, secondary(Many-to-Many), name for backref, loads when asked to
     #forgein keys
-    ###Shelter
+    shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=False)
     species_id = db.Column(db.Integer, db.ForgeinKey('species.id'), nullable=False)
     taken_by = db.Column(db.Integer, db.ForgeinKey('takers.id') nullable=True) #relationship looks up python code (Class name), forgeinkey looks up database (table name)
     taken_at = db.Column(db.DateTime, nullable=True)
@@ -73,8 +73,11 @@ class Takers(db.Model): #im Modell vgl. mit Animal_Record
 
 class Addresses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-
-###SPALTEN EINTRAGEN 
+    country_code = db.Column(db.String(2), nullable=False)
+    zip_code = db.Column(db.String(10), nullable=False)
+    city = db.Column(db.String(20), nullable=False)
+    street = db.Column(db.String(20), nullable=False)
+    number = db.Column(db.Integer, nullable=False) 
 
     #relationships
         shelter = db.relationship('Shelters', backref='addresses', lazy='dynamic', nullable=True)
@@ -101,8 +104,8 @@ class Shelters(db.Model):
         manager = db.relationship('Managers', backref='shelters', lazy='dynamic', nullable=True, ,  cascade="all, delete-orphan")
         donation = db.relationship('Donations', backref='shelters', lazy='dynamic', nullable=True)
         volunteer = db.relationship('Volunteers', backref='shelters', lazy='dynamic', nullable=True,  cascade="all, delete-orphan") 
+        animal = db.relationship('Animals', backref='shelters', lazy='dynamic', nullable=True,  cascade="all, delete-orphan")
         # cascade = "all" includes save-update, merge, refresh-expire, expunge, delete and delete-orphan deletes the row in the other table if the forgein key is set to Null
-        # Animal
     #forgein keys
         vet = db.Column(db.Integer, db.ForgeinKey('vets.id'), nullable=True)
         address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
