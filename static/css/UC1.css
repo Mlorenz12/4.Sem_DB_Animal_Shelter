@@ -1,0 +1,46 @@
+li {
+    color: black;
+    float: left;
+    position: relative;
+    padding: 10px 20px;
+    overflow: hidden;
+}
+
+li::after {
+  background-color: black;
+  content: "";
+  width: 0;
+  height: 5px;
+  left: 0;
+  bottom: 0;
+  margin-left: 40%;
+  margin-right: 40%;
+  transition: width 0.35s ease 0s;
+  position: absolute;
+}
+
+li:hover::after {
+  width: 20%;
+  height: 5px;
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+h1 {
+  text-align: left;
+  font-weight: 100;
+  margin-top: 2%;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: rgba(0, 0, 0, 0.69);
+}
+
+label {
+    margin-top: .5cm;
+    margin-bottom: 0;
+}

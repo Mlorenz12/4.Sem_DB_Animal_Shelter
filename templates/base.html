@@ -5,7 +5,16 @@
         {% block head %}{% endblock %}
     </head>
     <body>
-        <!--//Navbar-->
+        {% block navbar %}
+        <div class="navbar navbar-fixed-top">
+              <ul class="navbar-nav mr-auto nav-fill w-100" style="font-size: large;">
+                <li class="nav-item"><a class="nav-link" href="/UC1">Anfahrt</a></li>
+                <li class="nav-item"><a class="nav-link" href="/UC2">Helfer</a></li>
+                <li class="nav-item"><a class="nav-link" href="/UC3">Tiere</a></li>
+              </ul>
+        </div>
+        <br><br>
+        {% endblock %}
         {%block body%}{% endblock %}
         <!--Fußzeile-->
     </body>

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Anfahrt</title>
+<link rel="stylesheet" href="../static/css/UC1.css">
+{% endblock %}
+
+{% block body %}
+<br>
+
+<h1>Kontakt unserer Tierheime</h1>
+<h3>Sie würden uns gerne besuchen? Hier finden Sie alle Niederlassungen.</h3>
+<br>
+<div class="content">
+    <h2 style="text-align: center">Kontakt</h2>
+    {% if tasks|length < 1 %}
+    <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Country Code</th>
+            <th>Postleitzahl</th>
+            <th>Stadt</th>
+            <th>Straße</th>
+            <th>Hausnummer</th>
+        </tr>
+    </table>
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+<!--
+    Zum Starten musst du die app.py ausführen und dann auf den localhost gehen
+    in app.py gibt es ganz unten ein paar Zeilen die folgendermaßen aussehen
+
+    @app.route('/Vorlage')
+    def Vorlage():
+        return render_template('Mimis_Vorlage.html')
+
+    Das heißt das der Link zu der Seite localhost:5000/Vorlage ist und das Ganze auf 'Mimis_Vorlage.html'
+    verweißt
+
+    Wenn du weitere Seiten baust kannst du sie dir ansehen indem du die diesen Code nochmal an app.py anhängst 
+    (unter den anderen app.route Befehlen) und entsprechend den Link und den Verweis auf die HTML änderst
+
+    Arbeite bitte auch weiterhin erstmal nur in der app.py nicht in der database.py
+-->

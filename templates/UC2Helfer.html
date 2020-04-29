@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Helfer</title>
+<link rel="stylesheet" href="../static/css/UC2.css">
+{% endblock %}
+
+{% block body %}
+<!-- Hier steht alles aus dem Body-->
+
+<!-- 
+    was du normalerweise in <script> <\script> schreibst funktioniert auch weiterhin
+    und du kannst direkt Pythonfunktionen einbauen mit:
+-->
+<br>
+
+<h1>Du möchtest gerne ehrenamtlich mithelfen?</h1>
+<h3>Hier kannst du dich eintragen</h3>
+<h3>Wenn du bereits ehrenamtlicher Helfer bist, klicke <a href="/UC2Eintrag">hier</a></h3>
+
+<div class="form">
+    <label class="label" for="niederlassung">An dieser Niederlassung möchte ich helfen.</label><br>
+    <select name="niederlassung" id="niederlassung">
+        <option value="münchen">München</option>
+        <option value="berlin">Berlin</option>
+        <option value="mannheim">Mannheim</option>
+        <option value="düsseldorf">Düsseldorf</option>
+    </select><br>
+    <label class="label" for="vorname">Vorname</label><br>
+    <input type="text" name="vorname" id="vorname"><br>
+    <label class="label" for="nachname">Nachname</label><br>
+    <input type="text" name="nachname" id="nachname"><br>
+    <label class="label" for="gender">Geschlecht</label><br>
+    <select name="gender" id="gender">
+        <option value="m">männlich</option>
+        <option value="w">weiblich</option>
+        <option value="d">divers</option>
+    </select><br>
+    <label class="label" for="date">Geburtsdatum</label><br>
+    <input type="date" id="date" name="Datum"><br>
+    <label class="label" for="password">Ihr individueller Zugangsschlüssel</label><br>
+    <input type="password" name="Password" id="password"><br>
+</div>
+
+{% endblock %}
+
+<!--
+    Zum Starten musst du die app.py ausführen und dann auf den localhost gehen
+    in app.py gibt es ganz unten ein paar Zeilen die folgendermaßen aussehen
+
+    @app.route('/Vorlage')
+    def Vorlage():
+        return render_template('Mimis_Vorlage.html')
+
+    Das heißt das der Link zu der Seite localhost:5000/Vorlage ist und das Ganze auf 'Mimis_Vorlage.html'
+    verweißt
+
+    Wenn du weitere Seiten baust kannst du sie dir ansehen indem du die diesen Code nochmal an app.py anhängst 
+    (unter den anderen app.route Befehlen) und entsprechend den Link und den Verweis auf die HTML änderst
+
+    Arbeite bitte auch weiterhin erstmal nur in der app.py nicht in der database.py
+-->

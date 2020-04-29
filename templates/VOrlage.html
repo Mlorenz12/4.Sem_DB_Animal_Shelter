@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Hier steht der Title der Seite</title>
+<!-- Und hier der Rest des headers-->
+{% endblock %}
+
+{% block body %}
+<!-- Hier steht alles aus dem Body-->
+
+<!-- 
+    was du normalerweise in <script> <\script> schreibst funktioniert auch weiterhin
+    und du kannst direkt Pythonfunktionen einbauen mit:
+-->
+    {% for i in [1,2,3,4,5]%}
+    <p>Hello</p>
+    {% endfor %}
+
+{% endblock %}
+
+<!--
+    Zum Starten musst du die app.py ausführen und dann auf den localhost gehen
+    in app.py gibt es ganz unten ein paar Zeilen die folgendermaßen aussehen
+
+    @app.route('/Vorlage')
+    def Vorlage():
+        return render_template('Mimis_Vorlage.html')
+
+    Das heißt das der Link zu der Seite localhost:5000/Vorlage ist und das Ganze auf 'Mimis_Vorlage.html'
+    verweißt
+
+    Wenn du weitere Seiten baust kannst du sie dir ansehen indem du die diesen Code nochmal an app.py anhängst 
+    (unter den anderen app.route Befehlen) und entsprechend den Link und den Verweis auf die HTML änderst
+
+    Arbeite bitte auch weiterhin erstmal nur in der app.py nicht in der database.py
+-->
