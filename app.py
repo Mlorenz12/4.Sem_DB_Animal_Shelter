@@ -64,7 +64,21 @@ def update(id):
 
 @app.route('/UC1')
 def UC1():
-    return render_template('UC1Anfahrt.html')
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC1Anfahrt.html', tasks=tasks)
+
 
 @app.route('/UC2')
 def UC2():
@@ -72,11 +86,37 @@ def UC2():
     
 @app.route('/UC2Eintrag')
 def UC2Eintrag():
-    return render_template('UC2Eintrag.html')
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC2Eintrag.html', tasks=tasks)
 
 @app.route('/UC3')
 def UC3():
-    return render_template('UC3Tiere.html')
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC3Tiere.html', tasks=tasks)
 
 if __name__ == "__main__":
     app.run(debug=True)
