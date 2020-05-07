@@ -6,29 +6,38 @@
 {% endblock %}
 
 {% block body %}
-<br>
 
-<h1>Kontakt unserer Tierheime</h1>
-<h3>Sie würden uns gerne besuchen? Hier finden Sie alle Niederlassungen.</h3>
-<br>
-<div class="content">
-    <h2 style="text-align: center">Kontakt</h2>
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
-    {% else %}
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Country Code</th>
-            <th>Postleitzahl</th>
-            <th>Stadt</th>
-            <th>Straße</th>
-            <th>Hausnummer</th>
-        </tr>
-    </table>
-    {% endif %}
+<div style="background-color: lavenderblush;">
+    <div style="padding-left: 1cm; margin-top: .5cm; padding-top: .5cm;">
+        <h1>Kontakt unserer Tierheime</h1>
+        <h2>Sie würden uns gerne besuchen? Hier finden Sie alle Niederlassungen.</h2><br>
+    </div>
+    <div class="content">
+        <h2 style="text-align: center">Kontakt</h2>
+        {% if tasks|length < 1 %}
+        <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
+        {% else %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Country Code</th>
+                <th>Postleitzahl</th>
+                <th>Stadt</th>
+                <th>Straße</th>
+                <th>Hausnummer</th>
+            </tr>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.content }}</td>
+                    <td>{{ task.date_created.date() }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
 </div>
 
+<br><br>
 
 {% endblock %}
 

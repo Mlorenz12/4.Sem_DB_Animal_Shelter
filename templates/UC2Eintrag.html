@@ -7,49 +7,55 @@
 
 {% block body %}
 
-<h2>Du möchtest gerne deinen eigenen Eintrag sehen?</h2>
-<h3>Bitte gib hierzu deinen Vornamen, Nachnamen und dein anfangs festgelegtes Passwort an.</h3>
+<div style="background-color: lavenderblush;">
+    <div style="padding-left: 1cm; margin-top: .5cm; padding-top: .5cm;">
+        <h2>Du möchtest gerne deinen eigenen Eintrag sehen?</h2>
+        <h3>Bitte gib hierzu deinen Vornamen, Nachnamen und dein anfangs festgelegtes Passwort an.</h3>
 
-<label class="label" for="vorname">Vorname</label><br>
-<input type="text" name="vorname" id="vorname"><br>
-<label class="label" for="nachname">Nachname</label><br>
-<input type="text" name="nachname" id="nachname"><br>
-<label class="label" for="password">Ihr individueller Zugangsschlüssel</label><br>
-<input type="password" name="Password" id="password"><br>
+    <label class="label" for="vorname">Vorname</label><br>
+    <input type="text" name="vorname" id="vorname"><br><br>
+    <label class="label" for="nachname">Nachname</label><br>
+    <input type="text" name="nachname" id="nachname"><br><br>
+    <label class="label" for="password">Ihr individueller Zugangsschlüssel</label><br>
+    <input type="password" name="Password" id="password"><br>
 
-<br><br>
+    <br>
 
-<button type="button" class="btn btn-dark">Überprüfen</button>
+    <button type="button" class="btn btn-dark">Suchen</button>
 
-
-<div class="content">
-    <h1 style="text-align: center">Dein Eintrag</h1>
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
-    {% else %}
-    <table>
-        <tr>
-            <th>Shelter-ID</th>
-            <th>Vorname</th>
-            <th>Nachname</th>
-            <th>Geschlecht</th>
-            <th>Geburtstag</th>
-        </tr>
-        {% for task in tasks %}
+    </div>
+    
+    <div class="content">
+        <h1 style="text-align: center">Dein Eintrag</h1>
+        <!--{% if tasks|length < 1 %}
+        <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
+        {% else %}-->
+        <table>
             <tr>
-                <td>{{ task.content }}</td>
-                <td>{{ task.date_created.date() }}</td>
-                <td>
-                    <a href="/delete/{{task.id}}">Delete</a>
-                    <br>
-                    <a href="/update/{{task.id}}">Update</a>
-                </td>
+                <th>Shelter-ID</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Geschlecht</th>
+                <th>Geburtstag</th>
             </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
-</div>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.content }}</td>
+                    <td>{{ task.date_created.date() }}</td>
+                    <td>
+                        <a href="/delete/{{task.id}}">Delete</a>
+                        <br>
+                        <a href="/update/{{task.id}}">Update</a>
+                    </td>
+                    <td>"Dummy"</td>
 
+
+                </tr>
+            {% endfor %}
+        </table>
+        <!--{% endif %}-->
+    </div>
+</div>
 {% endblock %}
 
 <!--

@@ -6,30 +6,36 @@
 {% endblock %}
 
 {% block body %}
+<div style="background-color: lavenderblush;">
+    <div style="padding-left: 1cm; margin-top: .5cm; padding-top: .5cm;">
+        <h1>Unsere Tiere</h1>
+        <h3>Haben Sie Interesse an einem neuen Vierbeiner, der Schwung in Ihren Alltag bringt? Oder ein Nagetier zum Spielen?</h3>
+        <h3>Dann sind Sie hier richtig.</h3>
+    </div>
 
-<br>
-
-<h1>Unsere Tiere</h1>
-<h3>Haben Sie Interesse an einem neuen Vierbeiner, der Schwung in Ihren Alltag bringt? Oder ein Nagetier zum Spielen? Dann sind Sie hier richtig.</h3>
-<br>
-<div class="content">
-    <h2 style="text-align: center">Unsere Tiere</h2>
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
-    {% else %}
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Species</th>
-            <th>Name</th>
-            <th>Geschlecht</th>
-            <th>Bei uns seit</th>
-        </tr>
-    </table>
-    {% endif %}
+    <div class="content">
+        <h2 style="text-align: center">Unsere Tiere</h2>
+        {% if tasks|length < 1 %}
+        <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
+        {% else %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Species</th>
+                <th>Name</th>
+                <th>Geschlecht</th>
+                <th>Bei uns seit</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.content }}</td>
+                <td>{{ task.date_created.date() }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
 </div>
-
-
 
 {% endblock %}
 

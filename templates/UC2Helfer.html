@@ -6,42 +6,43 @@
 {% endblock %}
 
 {% block body %}
-<!-- Hier steht alles aus dem Body-->
 
-<!-- 
-    was du normalerweise in <script> <\script> schreibst funktioniert auch weiterhin
-    und du kannst direkt Pythonfunktionen einbauen mit:
--->
-<br>
-
-<h1>Du möchtest gerne ehrenamtlich mithelfen?</h1>
-<h3>Hier kannst du dich eintragen</h3>
-<h3>Wenn du bereits ehrenamtlicher Helfer bist, klicke <a href="/UC2Eintrag">hier</a></h3>
-
-<div class="form">
-    <label class="label" for="niederlassung">An dieser Niederlassung möchte ich helfen.</label><br>
-    <select name="niederlassung" id="niederlassung">
-        <option value="münchen">München</option>
-        <option value="berlin">Berlin</option>
-        <option value="mannheim">Mannheim</option>
-        <option value="düsseldorf">Düsseldorf</option>
-    </select><br>
-    <label class="label" for="vorname">Vorname</label><br>
-    <input type="text" name="vorname" id="vorname"><br>
-    <label class="label" for="nachname">Nachname</label><br>
-    <input type="text" name="nachname" id="nachname"><br>
-    <label class="label" for="gender">Geschlecht</label><br>
-    <select name="gender" id="gender">
-        <option value="m">männlich</option>
-        <option value="w">weiblich</option>
-        <option value="d">divers</option>
-    </select><br>
-    <label class="label" for="date">Geburtsdatum</label><br>
-    <input type="date" id="date" name="Datum"><br>
-    <label class="label" for="password">Ihr individueller Zugangsschlüssel</label><br>
-    <input type="password" name="Password" id="password"><br>
+<div style="background-color: lavenderblush; padding-bottom: 10cm">
+    <div style="padding-left: 1cm; margin-top: .5cm; padding-top: .5cm;">
+        <h1>Du möchtest gerne ehrenamtlich mithelfen?</h1>
+        <h2>Hier kannst du dich eintragen</h2>
+        <h3>Wenn du bereits ehrenamtlicher Helfer bist, klicke <a href="/UC2Eintrag">hier</a></h3>
+    </div>
+    
+    <div class="form" style="margin-left: 2cm;">
+        <form action="/" method="POST">
+            <label class="label" for="niederlassung">An dieser Niederlassung möchte ich helfen.</label><br>
+            <select name="niederlassung" id="niederlassung">
+                <option value="münchen">München</option>
+                <option value="berlin">Berlin</option>
+                <option value="mannheim">Mannheim</option>
+                <option value="düsseldorf">Düsseldorf</option>
+            </select><br><br>
+            <label class="label" for="vorname">Vorname</label><br>
+            <input type="text" name="vorname" id="vorname"><br><br>
+            <label class="label" for="nachname">Nachname</label><br>
+            <input type="text" name="nachname" id="nachname"><br><br>
+            <label class="label" for="gender">Geschlecht</label><br>
+            <select name="gender" id="gender">
+                <option value="m">männlich</option>
+                <option value="w">weiblich</option>
+                <option value="d">divers</option>
+            </select><br><br>
+            <label class="label" for="date">Geburtsdatum</label><br>
+            <input type="date" id="date" name="Datum"><br><br>
+            <label class="label" for="password1">Ihr individueller Zugangsschlüssel</label><br>
+            <input type="password" name="Password" id="password1"><br><br>
+            <label class="label" for="password2">Zugangsschlüssel wiederholen</label><br>
+            <input type="password" name="Password" id="password2"><br><br>
+            <button type="button" class="btn btn-dark">Absenden</button>
+        </form>
+    </div>
 </div>
-
 {% endblock %}
 
 <!--
