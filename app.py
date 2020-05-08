@@ -1,10 +1,12 @@
 from flask import Flask, render_template, url_for, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+bootstrap = Bootstrap(app)
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -60,9 +62,61 @@ def update(id):
     else:
         return render_template('update.html', task=task)
 
-@app.route('/Vorlage')
-def Vorlage():
-    return render_template('Mimis_Vorlage.html')
+@app.route('/UC1')
+def UC1():
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC1Anfahrt.html', tasks=tasks)
+
+
+@app.route('/UC2')
+def UC2():
+    return render_template('UC2Helfer.html')
+    
+@app.route('/UC2Eintrag')
+def UC2Eintrag():
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC2Eintrag.html', tasks=tasks)
+
+@app.route('/UC3')
+def UC3():
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC3Tiere.html', tasks=tasks)
 
 if __name__ == "__main__":
     app.run(debug=True)
