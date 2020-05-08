@@ -36,13 +36,14 @@ class Animals(db.Model):
     animal_name = db.Column(db.String(20), nullable=False)
     gender = db.Column(db.String(1), nullable=False) #only m or f [or d if the animal insists :D ]
     brought_in = db.Column(db.DateTime, default=datetime.utcnow) # Tiere sind von dem Zeitpunkt der Erfassung offiziell im Tierheim
+    taken_at = db.Column(db.DateTime, nullable=True)
     #Many-to-Many
     meal = db.relationship('Animals', secondary=animalfood, backref=db.backref('eaten_by'), lazy = 'dynamic') # Table, secondary(Many-to-Many), name for backref, loads when asked to
     #forgein keys
     shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=False)
     species_id = db.Column(db.Integer, db.ForgeinKey('species.id'), nullable=False)
     taken_by = db.Column(db.Integer, db.ForgeinKey('takers.id') nullable=True) #relationship looks up python code (Class name), forgeinkey looks up database (table name)
-    taken_at = db.Column(db.DateTime, nullable=True)
+    
 
     def __repr__(self):
       return '<Animal %r>' % self.id
@@ -101,7 +102,7 @@ class Shelters(db.Model):
     founded_at = = db.Column(db.DateTime)
 
     #relationships
-        manager = db.relationship('Managers', backref='shelters', lazy='dynamic', nullable=True, ,  cascade="all, delete-orphan")
+        manager = db.relationship('Managers', backref='shelters', lazy='dynamic', nullable=False, ,  cascade="all, delete-orphan")
         donation = db.relationship('Donations', backref='shelters', lazy='dynamic', nullable=True)
         volunteer = db.relationship('Volunteers', backref='shelters', lazy='dynamic', nullable=True,  cascade="all, delete-orphan") 
         animal = db.relationship('Animals', backref='shelters', lazy='dynamic', nullable=True,  cascade="all, delete-orphan")
@@ -139,6 +140,8 @@ class Volunteers(db.Model):
     def __repr__(self):
       return '<Volunteers %r>' % self.id
 
+
+##Diese Klasse nochmal überdenken als Weak-Entity mit einer Kombination aus den F-Keys und einem Timestamp als P-Key
 class Donations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer, nullable=False)
