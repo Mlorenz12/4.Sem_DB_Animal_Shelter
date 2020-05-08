@@ -11,14 +11,23 @@
     <div style="padding-left: 1cm; margin-top: .5cm; padding-top: .5cm;">
         <h2>Du möchtest gerne deinen eigenen Eintrag sehen?</h2>
         <h3>Bitte gib hierzu deinen Vornamen, Nachnamen und dein anfangs festgelegtes Passwort an.</h3>
-
-    <label class="label" for="vorname">Vorname</label><br>
-    <input type="text" name="vorname" id="vorname"><br><br>
-    <label class="label" for="nachname">Nachname</label><br>
-    <input type="text" name="nachname" id="nachname"><br><br>
-    <label class="label" for="password">Ihr individueller Zugangsschlüssel</label><br>
-    <input type="password" name="Password" id="password"><br>
-
+        <!--<div class="form">
+            <form action="/" method="POST">
+                <label class="label" for="vorname">Vorname</label><br>
+                <input type="text" name="vorname" id="vorname"><br><br>
+                <label class="label" for="nachname">Nachname</label><br>
+                <input type="text" name="nachname" id="nachname"><br><br>
+                <label class="label" for="password">Ihr individueller Zugangsschlüssel</label><br>
+                <input type="password" name="Password" id="password"><br>
+                <input type="submit" value="Add Task">
+            </form>
+        </div>-->
+        <div class="form">
+            <form action="/" method="POST">
+                <input type="text" name="content" id="content">
+                <input type="submit" value="Add Task">
+            </form>
+        </div>
     <br>
 
     <button type="button" class="btn btn-dark">Suchen</button>
