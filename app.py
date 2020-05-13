@@ -16,6 +16,23 @@ class Todo(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
+#in der Database.py ist dies Volunteers
+class Volunteers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(20), nullable=False)
+    lastname = db.Column(db.String(20), nullable=False)
+    gender = db.Column(db.String(1), nullable=False)
+    password = db.Column(db.String(30), nullable=False)
+    birthday = db.Column(db.DateTime, nullable=False)
+
+        #forgein keys
+        #shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=False)
+        #Problem Shelter (Integer) entspricht Niederlassung (String)
+        #Am besten Datenbank später erstellen die IDs der Niederlassungen nachschauen und dann die Werte hinterlegen statt den Strings
+
+    def __repr__(self):
+        return '<Help %r>' % self.id
+
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -82,14 +99,48 @@ def UC1():
 
 @app.route('/UC2')
 def UC2():
-    return render_template('UC2Helfer.html')
+    if request.method == 'POST':
+        if request.form['password1'] == request.form['password2']:
+            dict = {
+                "nl" : request.form['niederlassung'],
+                "vn" : request.form['vorname'],
+                "nn" : request.form['nachname'],
+                "bd" : request.form['date'],
+                "gd" : request.form['gender'],
+                "pw" : request.form['password1'],
+            }
+            new_helper = Helper(niederlassung = dict["nl"],
+                                firstname = dict["vn"],
+                                lastname = dict["nn"],
+                                birthday = dict["bd"],
+                                gender = dict["gd"],
+                                password = dict["pw"])
+
+            try:
+                db.session.add(new_helper)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'There was an issue adding you to the list'
+
+        else: return 'passwords must be equal'
+
+    else:
+        return render_template('UC2Helfer.html')
     
 @app.route('/UC2Eintrag')
 def UC2Eintrag():
     if request.method == 'POST':
-        task_content = request.form['content']
-        new_task = Todo(content=task_content)
-
+        dict = {
+            niederlassung : request.form['niederlassung'],
+            vorname : request.form['vorname'],
+            nachname : request.form['nachname'],
+            vorname : request.form['vorname'],
+            gender : request.form['gender']
+        }
+        
+        new_helper = Help(content=task_content)
+        #Falsch, muss noch angepasst werden, das hier ist der Eintrag für UC2Helfer
         try:
             db.session.add(new_task)
             db.session.commit()
@@ -98,7 +149,7 @@ def UC2Eintrag():
             return 'There was an issue adding your task'
 
     else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
+        tasks = Todo.query.order_by(Todo.date_created).first()
         return render_template('UC2Eintrag.html', tasks=tasks)
 
 @app.route('/UC3')

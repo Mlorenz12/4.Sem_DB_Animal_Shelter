@@ -3,27 +3,27 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///production.db'
 db = SQLAlchemy(app)
 
-# one person (relationship) can have many pets (forgeinkey)
+# one person (relationship) can have many pets (ForeignKey)
 
 # Sammlung der Many-to-Many relationships
 ## This markiert die Table mit dem Backref
 
 animalfood = db.Table('animal_food',
-    db.Column('animal_id', db.Integer, db.ForgeinKey('animals.id')), # This
-    db.Column('food_id', db.Integer, db.ForgeinKey('food.id'))
+    db.Column('animal_id', db.Integer, db.ForeignKey('animals.id')), # This
+    db.Column('food_id', db.Integer, db.ForeignKey('food.id'))
     )
 
 supplierfood = db.Table('supplier_food',
-    db.Column('supplier_id', db.Integer, db.ForgeinKey('suppliers.id')), # This
-    db.Column('food_id', db.Integer, db.ForgeinKey('food.id'))
+    db.Column('supplier_id', db.Integer, db.ForeignKey('suppliers.id')), # This
+    db.Column('food_id', db.Integer, db.ForeignKey('food.id'))
     )
 
 suppliershelter = db.Table('supplier_shelter',
-    db.Column('supplier_id', db.Integer, db.ForgeinKey('suppliers.id')), #This
-    db.Column('shelter_id', db.Integer, db.ForgeinKey('shelter.id'))
+    db.Column('supplier_id', db.Integer, db.ForeignKey('suppliers.id')), #This
+    db.Column('shelter_id', db.Integer, db.ForeignKey('shelters.id'))
 )
 
 #function which returns a string when you add a new row to the table
@@ -40,9 +40,9 @@ class Animals(db.Model):
     #Many-to-Many
     meal = db.relationship('Animals', secondary=animalfood, backref=db.backref('eaten_by'), lazy = 'dynamic') # Table, secondary(Many-to-Many), name for backref, loads when asked to
     #forgein keys
-    shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=False)
-    species_id = db.Column(db.Integer, db.ForgeinKey('species.id'), nullable=False)
-    taken_by = db.Column(db.Integer, db.ForgeinKey('takers.id') nullable=True) #relationship looks up python code (Class name), forgeinkey looks up database (table name)
+    shelter = db.Column(db.Integer, db.ForeignKey('shelters.id'), nullable=False)
+    species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
+    taken_by = db.Column(db.Integer, db.ForeignKey('takers.id'), nullable=True) #relationship looks up python code (Class name), ForeignKey looks up database (table name)
     
 
     def __repr__(self):
@@ -52,9 +52,9 @@ class Species(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     species_name = db.Column(db.String(20), nullable = False)
     #One-to-Many
-    animal = db.relationship('Animal', backref='species', lazy='dynamic', nullable=True) #backref declares property on class Species (my_species.animal possible now). lazy is when to load the data (True is a in one go as normal select, False is a JOIN statement)
+    animal = db.relationship('Animals', backref='species', lazy='dynamic') #backref declares property on class Species (my_species.animal possible now). lazy is when to load the data (True is a in one go as normal select, False is a JOIN statement)
     #forgein keys
-    sup_species = db.Column(db.Integer, db.ForgeinKey('species.id'), nullable=True)
+    sup_species = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=True)
 
     def __repr__(self):
       return '<Species %r>' % self.id
@@ -64,9 +64,9 @@ class Takers(db.Model): #im Modell vgl. mit Animal_Record
     first_name = db.Column(db.String(20), nullable=False)
     last_name  = db.Column(db.String(20), nullable=False)
     #relationship 
-    animal = db.relationship('Animal', backref='takers', lazy='dynamic', nullable=True)
-    #forgeinkey
-    address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
+    animal = db.relationship('Animals', backref='takers', lazy='dynamic')
+    #ForeignKey
+    address = db.Column(db.Integer, db.ForeignKey('addresses.id'), nullable=True)
 
     def __repr__(self):
       return '<Takers %r>' % self.id
@@ -81,10 +81,10 @@ class Addresses(db.Model):
     number = db.Column(db.Integer, nullable=False) 
 
     #relationships
-        shelter = db.relationship('Shelters', backref='addresses', lazy='dynamic', nullable=True)
-        vet = db.relationship('Vets', backref='addresses', lazy='dynamic', nullable=True)
-        supplier = db.relationship('Suppliers', backref='addresses', lazy='dynamic', nullable=True)
-        taker = db.relationship('Takers', backref='addresses', lazy='dynamic', nullable=True)
+    shelter = db.relationship('Shelters', backref='addresses', lazy='dynamic')
+    vet = db.relationship('Vets', backref='addresses', lazy='dynamic')
+    supplier = db.relationship('Suppliers', backref='addresses', lazy='dynamic')
+    taker = db.relationship('Takers', backref='addresses', lazy='dynamic')
 
     def __repr__(self):
       return '<Addresses %r>' % self.id
@@ -99,17 +99,17 @@ class Food(db.Model):
 class Shelters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     shelter_name = db.Column(db.String(20), nullable=False)
-    founded_at = = db.Column(db.DateTime)
+    founded_at = db.Column(db.DateTime)
 
     #relationships
-        manager = db.relationship('Managers', backref='shelters', lazy='dynamic', nullable=False, ,  cascade="all, delete-orphan")
-        donation = db.relationship('Donations', backref='shelters', lazy='dynamic', nullable=True)
-        volunteer = db.relationship('Volunteers', backref='shelters', lazy='dynamic', nullable=True,  cascade="all, delete-orphan") 
-        animal = db.relationship('Animals', backref='shelters', lazy='dynamic', nullable=True,  cascade="all, delete-orphan")
+    manager = db.relationship('Managers', backref='shelters', lazy='dynamic',  cascade="all, delete-orphan")
+    donation = db.relationship('Donations', backref='shelters', lazy='dynamic', )
+    volunteer = db.relationship('Volunteers', backref='shelters', lazy='dynamic',   cascade="all, delete-orphan") 
+    animal = db.relationship('Animals', backref='shelters', lazy='dynamic',  cascade="all, delete-orphan")
         # cascade = "all" includes save-update, merge, refresh-expire, expunge, delete and delete-orphan deletes the row in the other table if the forgein key is set to Null
     #forgein keys
-        vet = db.Column(db.Integer, db.ForgeinKey('vets.id'), nullable=True)
-        address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
+    vet = db.Column(db.Integer, db.ForeignKey('vets.id'), nullable=True)
+    address = db.Column(db.Integer, db.ForeignKey('addresses.id'), nullable=True)
 
     def __repr__(self):
       return '<Shelters %r>' % self.id
@@ -120,22 +120,23 @@ class Managers(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name  = db.Column(db.String(20), nullable=False)
     gender = db.Column(db.String(1), nullable=False)
-    birthday = db.Column(db.DateTime) # zeiteintrag noch ändern
+    birthday = db.Column(db.DateTime)
     #forgein keys
-        shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=True)
+    shelter = db.Column(db.Integer, db.ForeignKey('shelters.id'), nullable=True)
 
     def __repr__(self):
       return '<Managers %r>' % self.id
 
 class Volunteers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(20), nullable=False)
-    last_name  = db.Column(db.String(20), nullable=False)
+    firstname = db.Column(db.String(20), nullable=False)
+    lastname  = db.Column(db.String(20), nullable=False)
     gender = db.Column(db.String(1), nullable=False)
-    birthday = db.Column(db.DateTime)
+    birthday = db.Column(db.DateTime, nullable=False)
+    password = db.Column(db.String(20), nullable=False)
 
     #forgein keys
-        shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=False)
+    shelter = db.Column(db.Integer, db.ForeignKey('shelters.id'), nullable=False)
 
     def __repr__(self):
       return '<Volunteers %r>' % self.id
@@ -143,13 +144,12 @@ class Volunteers(db.Model):
 
 ##Diese Klasse nochmal überdenken als Weak-Entity mit einer Kombination aus den F-Keys und einem Timestamp als P-Key
 class Donations(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer, nullable=False)
+    shelter = db.Column(db.Integer, db.ForeignKey('shelters.id'), nullable=False, primary_key=True)
+    donor = db.Column(db.Integer, db.ForeignKey('donors.id'), nullable=False, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
+    # UniqueConstraint('shelter', 'donor','timestamp', name='prim_key') für den Fall, dass die Verbindung des primary key so nicht klappt, Docs unklar
 
-    #forgein keys
-        shelter = db.Column(db.Integer, db.ForgeinKey('shelters.id'), nullable=True)
-        donor = db.Column(db.Integer, db.ForgeinKey('donors.id'), nullable=True)
-    
     def __repr__(self):
       return '<Donations %r>' % self.id
 
@@ -159,7 +159,7 @@ class Donors(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name  = db.Column(db.String(20), nullable=False)
     #relationships
-    donation = db.relationship('Donations', backref='donors', lazy='dynamic', nullable=True)
+    donation = db.relationship('Donations', backref='donors', lazy='dynamic')
 
     def __repr__(self):
       return '<Donors %r>' % self.id
@@ -172,7 +172,7 @@ class Suppliers(db.Model):
     delivery = db.relationship('Suppliers', secondary=suppliershelter, backref=db.backref('delivery'), lazy = 'dynamic')
 
     #forgein keys
-    address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
+    address = db.Column(db.Integer, db.ForeignKey('addresses.id'), nullable=True)
 
     def __repr__(self):
       return '<Suppliers %r>' % self.id
@@ -184,9 +184,10 @@ class Vets(db.Model):
     last_name  = db.Column(db.String(20), nullable=False)
     gender = db.Column(db.String(1), nullable=False)
     birthday = db.Column(db.DateTime)
-    shelter = db.relationship('Shelter', backref='vets', lazy='dynamic', nullable=True)
+    #relationship
+    shelter = db.relationship('Shelter', backref='vets', lazy='dynamic')
     #forgein keys
-    address = db.Column(db.Integer, db.ForgeinKey('addresses.id'), nullable=True)
+    address = db.Column(db.Integer, db.ForeignKey('addresses.id'), nullable=True)
 
     def __repr__(self):
       return '<Vets %r>' % self.id
@@ -199,24 +200,29 @@ class Vets(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        new_thing_content = request.form['content']
-        new_task = <Table>(<column1>=new_thing_content) # more columns possible
+        volu_data = request.form['content']
+        new_volu = Todo(firstname=volu_data[1],
+                        lastname=volu_data[2],
+                        gender=volu_data[3],
+                        birthday=volu_data[4],
+                        password=volu_data[5],
+                        shelter=volu_data[6])
 
         try:
-            db.session.add(new_task)
+            db.session.add(new_volu)
             db.session.commit()
             return redirect('/')
         except:
             return 'There was an issue adding your task'
 
     else:
-        tasks = <Table>.query.order_by(<Table>.<column2>).all()
-        return render_template('index.html', tasks=tasks)
+        volus = Volunteers.query.order_by(Volunteers.lastname).all()
+        return render_template('index.html', tasks=volus)
 
 
 @app.route('/delete/<int:id>')
 def delete(id):
-    task_to_delete = <Table>.query.get_or_404(id)
+    task_to_delete = Todo.query.get_or_404(id)
 
     try:
         db.session.delete(task_to_delete)
@@ -227,7 +233,7 @@ def delete(id):
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
-    task = <Table>.query.get_or_404(id)
+    task = Todo.query.get_or_404(id)
 
     if request.method == 'POST':
         task.content = request.form['content']
@@ -240,6 +246,96 @@ def update(id):
 
     else:
         return render_template('update.html', task=task)
+
+@app.route('/UC1')
+def UC1():
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC1Anfahrt.html', tasks=tasks)
+
+
+@app.route('/UC2')
+def UC2():
+    if request.method == 'POST':
+        if request.form['password1'] == request.form['password2']:
+            dict = {
+                "nl" : request.form['niederlassung'],
+                "vn" : request.form['vorname'],
+                "nn" : request.form['nachname'],
+                "bd" : request.form['date'],
+                "gd" : request.form['gender'],
+                "pw" : request.form['password1'],
+            }
+            new_helper = Helper(niederlassung = dict["nl"],
+                                firstname = dict["vn"],
+                                lastname = dict["nn"],
+                                birthday = dict["bd"],
+                                gender = dict["gd"],
+                                password = dict["pw"])
+
+            try:
+                db.session.add(new_helper)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'There was an issue adding you to the list'
+
+        else: return 'passwords must be equal'
+
+    else:
+        return render_template('UC2Helfer.html')
+    
+@app.route('/UC2Eintrag')
+def UC2Eintrag():
+    if request.method == 'POST':
+        dict = {
+            niederlassung : request.form['niederlassung'],
+            vorname : request.form['vorname'],
+            nachname : request.form['nachname'],
+            vorname : request.form['vorname'],
+            gender : request.form['gender']
+        }
+        
+        new_helper = Help(content=task_content)
+        #Falsch, muss noch angepasst werden, das hier ist der Eintrag für UC2Helfer
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).first()
+        return render_template('UC2Eintrag.html', tasks=tasks)
+
+@app.route('/UC3')
+def UC3():
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template('UC3Tiere.html', tasks=tasks)
 
 if __name__ == "__main__":
     app.run(debug=True)
