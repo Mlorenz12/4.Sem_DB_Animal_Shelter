@@ -200,20 +200,27 @@ class Vets(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        volu_data = request.form['content']
-        new_volu = Todo(firstname=volu_data[1],
-                        lastname=volu_data[2],
-                        gender=volu_data[3],
-                        birthday=volu_data[4],
-                        password=volu_data[5],
-                        shelter=volu_data[6])
+        volu_data= [request.form['niederlassung'],
+                    request.form['vorname'],
+                    request.form['nachname'],
+                    request.form['gender'],
+                    request.form['Datum'],
+                    request.form['Password'],
+                    request.form['Password2']]
 
-        try:
-            db.session.add(new_volu)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'There was an issue adding your task'
+        new_volu = Volunteers(firstname=volu_data[1],
+                            lastname=volu_data[2],
+                            gender=volu_data[3],
+                            birthday=volu_data[4],
+                            password=volu_data[5],
+                            shelter=volu_data[0])
+
+        #try:
+        db.session.add(new_volu)
+        db.session.commit()
+        return redirect('/')
+        #except:
+            #return 'There was an issue adding your task'
 
     else:
         volus = Volunteers.query.order_by(Volunteers.lastname).all()
