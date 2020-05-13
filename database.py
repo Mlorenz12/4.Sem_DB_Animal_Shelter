@@ -168,8 +168,8 @@ class Suppliers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     iban = db.Column(db.String(40), nullable=False)
     # Many-to-Many
-    meal = db.relationship('Suppliers', secondary=supplierfood, backref=db.backref('meal'), lazy = 'dynamic')
-    delivery = db.relationship('Suppliers', secondary=suppliershelter, backref=db.backref('delivery'), lazy = 'dynamic')
+    meal = db.relationship('Suppliers', secondary=supplierfood, backref=db.backref('meal2'), lazy = 'dynamic')
+    delivery = db.relationship('Suppliers', secondary=suppliershelter, backref=db.backref('delivery2'), lazy = 'dynamic')
 
     #forgein keys
     address = db.Column(db.Integer, db.ForeignKey('addresses.id'), nullable=True)
@@ -185,7 +185,7 @@ class Vets(db.Model):
     gender = db.Column(db.String(1), nullable=False)
     birthday = db.Column(db.DateTime)
     #relationship
-    shelter = db.relationship('Shelter', backref='vets', lazy='dynamic')
+    shelter = db.relationship('Shelters', backref='vets', lazy='dynamic')
     #forgein keys
     address = db.Column(db.Integer, db.ForeignKey('addresses.id'), nullable=True)
 
