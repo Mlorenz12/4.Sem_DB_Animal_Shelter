@@ -200,11 +200,16 @@ class Vets(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
+        
+        #method to convert from '2015-01-02T00:00' to 2015, 1, 2, 0, 0
+        date_in = request.form['Datum']
+        date_out = datetime(*[int(v) for v in date_in.replace('T', '-').replace(':', '-').split('-')])
+
         volu_data= [request.form['niederlassung'],
                     request.form['vorname'],
                     request.form['nachname'],
                     request.form['gender'],
-                    request.form['Datum'],
+                    date_out,
                     request.form['Password'],
                     request.form['Password2']]
 
@@ -215,21 +220,21 @@ def index():
                             password=volu_data[5],
                             shelter=volu_data[0])
 
-        #try:
-        db.session.add(new_volu)
-        db.session.commit()
-        return redirect('/')
-        #except:
-            #return 'There was an issue adding your task'
+        try:
+            db.session.add(new_volu)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
 
     else:
         volus = Volunteers.query.order_by(Volunteers.lastname).all()
         return render_template('index.html', tasks=volus)
 
 
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>') #Funktioniert!
 def delete(id):
-    task_to_delete = Todo.query.get_or_404(id)
+    task_to_delete = Volunteers.query.get_or_404(id)
 
     try:
         db.session.delete(task_to_delete)
@@ -240,10 +245,10 @@ def delete(id):
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
-    task = Todo.query.get_or_404(id)
+    task = Volunteers.query.get_or_404(id)
 
     if request.method == 'POST':
-        task.content = request.form['content']
+        task.shelter = request.form['content']
 
         try:
             db.session.commit()
@@ -274,34 +279,17 @@ def UC1():
 
 @app.route('/UC2')
 def UC2():
+
+    #Diese methode wird scheinbar nicht genutzt sondern der index pfad
     if request.method == 'POST':
-        if request.form['password1'] == request.form['password2']:
-            dict = {
-                "nl" : request.form['niederlassung'],
-                "vn" : request.form['vorname'],
-                "nn" : request.form['nachname'],
-                "bd" : request.form['date'],
-                "gd" : request.form['gender'],
-                "pw" : request.form['password1'],
-            }
-            new_helper = Helper(niederlassung = dict["nl"],
-                                firstname = dict["vn"],
-                                lastname = dict["nn"],
-                                birthday = dict["bd"],
-                                gender = dict["gd"],
-                                password = dict["pw"])
-
-            try:
-                db.session.add(new_helper)
-                db.session.commit()
-                return redirect('/')
-            except:
-                return 'There was an issue adding you to the list'
-
+        if request.form['Password'] == request.form['Password2']:
+            pass
         else: return 'passwords must be equal'
 
     else:
-        return render_template('UC2Helfer.html')
+        volus = Volunteers.query.order_by(Volunteers.lastname).all()
+        return render_template('UC2Helfer.html', tasks=volus)
+
     
 @app.route('/UC2Eintrag')
 def UC2Eintrag():
