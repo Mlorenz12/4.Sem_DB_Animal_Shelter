@@ -259,7 +259,7 @@ def update(id):
     else:
         return render_template('update.html', task=task)
 
-@app.route('/UC1')
+@app.route('/UC1', methods=['POST', 'GET'])
 def UC1():
     if request.method == 'POST':
         task_content = request.form['content']
@@ -273,11 +273,11 @@ def UC1():
             return 'There was an issue adding your task'
 
     else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
-        return render_template('UC1Anfahrt.html', tasks=tasks)
+        volus = Volunteers.query.order_by(Volunteers.lastname).all()
+        return render_template('UC1Anfahrt.html', tasks=volus)
 
 
-@app.route('/UC2')
+@app.route('/UC2', methods=['POST', 'GET'])
 def UC2():
 
     #Diese methode wird scheinbar nicht genutzt sondern der index pfad
@@ -289,9 +289,8 @@ def UC2():
     else:
         volus = Volunteers.query.order_by(Volunteers.lastname).all()
         return render_template('UC2Helfer.html', tasks=volus)
-
     
-@app.route('/UC2Eintrag')
+@app.route('/UC2Eintrag', methods=['POST', 'GET'])
 def UC2Eintrag():
     if request.method == 'POST':
         dict = {
@@ -312,14 +311,14 @@ def UC2Eintrag():
             return 'There was an issue adding your task'
 
     else:
-        tasks = Todo.query.order_by(Todo.date_created).first()
-        return render_template('UC2Eintrag.html', tasks=tasks)
+        volus = Volunteers.query.order_by(Volunteers.lastname).all()
+        return render_template('UC2Eintrag.html', tasks=volus)
 
-@app.route('/UC3')
+@app.route('/UC3', methods=['POST', 'GET'])
 def UC3():
     if request.method == 'POST':
         task_content = request.form['content']
-        new_task = Todo(content=task_content)
+        new_task = Animals(animal_name=task_content)
 
         try:
             db.session.add(new_task)
@@ -329,8 +328,8 @@ def UC3():
             return 'There was an issue adding your task'
 
     else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
-        return render_template('UC3Tiere.html', tasks=tasks)
+        animals = Animals.query.order_by(Animals.brought_in).all()
+        return render_template('UC3Tiere.html', tasks=animals)
 
 if __name__ == "__main__":
     app.run(debug=True)
