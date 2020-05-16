@@ -200,32 +200,32 @@ class Vets(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        
+        pass
         #method to convert from '2015-01-02T00:00' to 2015, 1, 2, 0, 0
-        date_in = request.form['Datum']
-        date_out = datetime(*[int(v) for v in date_in.replace('T', '-').replace(':', '-').split('-')])
-
-        volu_data= [request.form['niederlassung'],
-                    request.form['vorname'],
-                    request.form['nachname'],
-                    request.form['gender'],
-                    date_out,
-                    request.form['Password'],
-                    request.form['Password2']]
-
-        new_volu = Volunteers(firstname=volu_data[1],
-                            lastname=volu_data[2],
-                            gender=volu_data[3],
-                            birthday=volu_data[4],
-                            password=volu_data[5],
-                            shelter=volu_data[0])
-
-        try:
-            db.session.add(new_volu)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'There was an issue adding your task'
+#        date_in = request.form['Datum']
+#        date_out = datetime(*[int(v) for v in date_in.replace('T', '-').replace(':', '-').split('-')])
+#
+#        volu_data= [request.form['niederlassung'],
+#                    request.form['vorname'],
+#                    request.form['nachname'],
+#                    request.form['gender'],
+#                    date_out,
+#                    request.form['Password'],
+#                    request.form['Password2']]
+#
+#        new_volu = Volunteers(firstname=volu_data[1],
+#                            lastname=volu_data[2],
+#                            gender=volu_data[3],
+#                            birthday=volu_data[4],
+#                            password=volu_data[5],
+#                            shelter=volu_data[0])
+#
+#        try:
+#            db.session.add(new_volu)
+#            db.session.commit()
+#            return redirect('/')
+#        except:
+#            return 'There was an issue adding your task'
 
     else:
         volus = Volunteers.query.order_by(Volunteers.lastname).all()
@@ -280,15 +280,37 @@ def UC1():
 @app.route('/UC2', methods=['POST', 'GET'])
 def UC2():
 
-    #Diese methode wird scheinbar nicht genutzt sondern der index pfad
     if request.method == 'POST':
-        if request.form['Password'] == request.form['Password2']:
-            pass
-        else: return 'passwords must be equal'
+        
+        #method to convert from '2015-01-02T00:00' to 2015, 1, 2, 0, 0
+        date_in = request.form['Datum']
+        date_out = datetime(*[int(v) for v in date_in.replace('T', '-').replace(':', '-').split('-')])
+
+        volu_data= [request.form['niederlassung'],
+                    request.form['vorname'],
+                    request.form['nachname'],
+                    request.form['gender'],
+                    date_out,
+                    request.form['Password'],
+                    request.form['Password2']]
+
+        new_volu = Volunteers(firstname=volu_data[1],
+                            lastname=volu_data[2],
+                            gender=volu_data[3],
+                            birthday=volu_data[4],
+                            password=volu_data[5],
+                            shelter=volu_data[0])
+
+        try:
+            db.session.add(new_volu)
+            db.session.commit()
+            return redirect('/UC2Eintrag')
+        except:
+            return 'There was an issue adding your task'
 
     else:
-        volus = Volunteers.query.order_by(Volunteers.lastname).all()
-        return render_template('UC2Helfer.html', tasks=volus)
+        #volus = Volunteers.query.order_by(Volunteers.lastname).all()
+        return render_template('UC2Helfer.html') #tasks=volus
     
 @app.route('/UC2Eintrag', methods=['POST', 'GET'])
 def UC2Eintrag():
