@@ -201,31 +201,31 @@ class Vets(db.Model):
 def index():
     if request.method == 'POST':
         pass
-        #method to convert from '2015-01-02T00:00' to 2015, 1, 2, 0, 0
-#        date_in = request.form['Datum']
-#        date_out = datetime(*[int(v) for v in date_in.replace('T', '-').replace(':', '-').split('-')])
-#
-#        volu_data= [request.form['niederlassung'],
-#                    request.form['vorname'],
-#                    request.form['nachname'],
-#                    request.form['gender'],
-#                    date_out,
-#                    request.form['Password'],
-#                    request.form['Password2']]
-#
-#        new_volu = Volunteers(firstname=volu_data[1],
-#                            lastname=volu_data[2],
-#                            gender=volu_data[3],
-#                            birthday=volu_data[4],
-#                            password=volu_data[5],
-#                            shelter=volu_data[0])
-#
-#        try:
-#            db.session.add(new_volu)
-#            db.session.commit()
-#            return redirect('/')
-#        except:
-#            return 'There was an issue adding your task'
+            #method to convert from '2015-01-02T00:00' to 2015, 1, 2, 0, 0
+    #        date_in = request.form['Datum']
+    #        date_out = datetime(*[int(v) for v in date_in.replace('T', '-').replace(':', '-').split('-')])
+    #
+    #        volu_data= [request.form['niederlassung'],
+    #                    request.form['vorname'],
+    #                    request.form['nachname'],
+    #                    request.form['gender'],
+    #                    date_out,
+    #                    request.form['Password'],
+    #                    request.form['Password2']]
+    #
+    #        new_volu = Volunteers(firstname=volu_data[1],
+    #                            lastname=volu_data[2],
+    #                            gender=volu_data[3],
+    #                            birthday=volu_data[4],
+    #                            password=volu_data[5],
+    #                            shelter=volu_data[0])
+    #
+    #        try:
+    #            db.session.add(new_volu)
+    #            db.session.commit()
+    #            return redirect('/')
+    #        except:
+    #            return 'There was an issue adding your task'
 
     else:
         volus = Volunteers.query.order_by(Volunteers.lastname).all()
@@ -261,20 +261,13 @@ def update(id):
 
 @app.route('/UC1', methods=['POST', 'GET'])
 def UC1():
-    if request.method == 'POST':
-        task_content = request.form['content']
-        new_task = Todo(content=task_content)
 
-        try:
-            db.session.add(new_task)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'There was an issue adding your task'
-
-    else:
-        volus = Volunteers.query.order_by(Volunteers.lastname).all()
-        return render_template('UC1Anfahrt.html', tasks=volus)
+    shelters = Shelters.query.order_by(Shelters.id).all()
+    #adr = Addresses.query.order_by(Addresses.id).all()
+    #shelter_adr = select([Shelters, Addresses]).where(Shelters.c.addresses == addresses.c.id)
+    adr = db.session.query(Addresses).join(Shelters).filter(Addresses.id == Shelters.address).distinct()
+    
+    return render_template('UC1Anfahrt.html', places=shelters, adrs=adr)
 
 
 @app.route('/UC2', methods=['POST', 'GET'])
@@ -309,32 +302,19 @@ def UC2():
             return 'There was an issue adding your task'
 
     else:
-        #volus = Volunteers.query.order_by(Volunteers.lastname).all()
-        return render_template('UC2Helfer.html') #tasks=volus
+        return render_template('UC2Helfer.html')
     
 @app.route('/UC2Eintrag', methods=['POST', 'GET'])
 def UC2Eintrag():
+    volu_data = ["","",""]
     if request.method == 'POST':
-        dict = {
-            niederlassung : request.form['niederlassung'],
-            vorname : request.form['vorname'],
-            nachname : request.form['nachname'],
-            vorname : request.form['vorname'],
-            gender : request.form['gender']
-        }
-        
-        new_helper = Help(content=task_content)
-        #Falsch, muss noch angepasst werden, das hier ist der Eintrag für UC2Helfer
-        try:
-            db.session.add(new_task)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'There was an issue adding your task'
-
+        volu_data= [request.form['vorname'],
+                    request.form['nachname'],
+                    request.form['Password']]
     else:
-        volus = Volunteers.query.order_by(Volunteers.lastname).all()
-        return render_template('UC2Eintrag.html', tasks=volus)
+        volus = Volunteers.query.order_by(Volunteers.lastname).first()
+        return render_template('UC2Eintrag.html', volus=volus)
+        
 
 @app.route('/UC3', methods=['POST', 'GET'])
 def UC3():
@@ -350,8 +330,9 @@ def UC3():
             return 'There was an issue adding your task'
 
     else:
-        animals = Animals.query.order_by(Animals.brought_in).all()
-        return render_template('UC3Tiere.html', tasks=animals)
+        animals = Animals.query.order_by(Animals.taken_at.desc()).all()
+        shelters = Shelters.query.order_by(Shelters.id).all()
+        return render_template('UC3Tiere.html', animals=animals, shelters=shelters)
 
 if __name__ == "__main__":
     app.run(debug=True)

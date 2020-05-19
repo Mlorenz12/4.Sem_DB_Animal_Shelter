@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Tiere</title>
-<link rel="stylesheet" href="../static/css/UC3.css">
+    <title>Tiere</title>
+    <link rel="stylesheet" href="../static/css/UC3.css">
+    <script>
+        function Stringsplit(animal_func){
+            var brought_in = animal_func.brought_in.split(" ");
+            console.log(brought_in[1])
+            console.log("Hallo")
+            return brought_in
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -15,22 +23,58 @@
 
     <div class="content">
         <h2 style="text-align: center">Unsere Tiere</h2>
-        {% if tasks|length < 1 %}
+        {% if animals|length < 1 %}
         <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
         {% else %}
         <table>
             <tr>
-                <th>ID</th>
-                <th>Species</th>
                 <th>Name</th>
+                <th>Spezies</th>
                 <th>Geschlecht</th>
                 <th>Bei uns seit</th>
+                <th>Wo</th>
             </tr>
-            {% for task in tasks %}
+            {% for animal in animals %}
+                {% if animal.taken_at == none %}
+                <tr>
+                    <td>{{ animal.animal_name }}</td>
+                    <td>{{ animal.species_id }}</td>
+                    <td>{{ animal.gender }}</td>
+                    <script>
+                        var brought_in = Stringsplit({{ "2015 Hallo" }})
+                        document.getElementById("brought").innerHTML = brought_in;
+                    </script>
+                    <td id="brought"> </td>
+                    {% for shelter in shelters %}
+                        {% if shelter.id == animal.shelter %}
+                            <td>{{ shelter.shelter_name }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    
+                </tr>
+                
+                {% endif %}
+            {% endfor %}
+        </table>
+        <p> Folgende Tiere haben in letzter Zeit ein Zuhause gefunden</p>
+        <table>
             <tr>
-                <td>{{ task.content }}</td>
-                <td>{{ task.date_created.date() }}</td>
+                <th>Name</th>
+                <th>Spezies</th>
+                <th>Geschlecht</th>
+                <th>Zuhause seit</th>
             </tr>
+            {% for animal in animals %}
+            {% if animal.taken_at != none %}
+            <tr>
+                <td>{{ animal.animal_name }}</td>
+                <td>{{ animal.species_id }}</td>
+                <td>{{ animal.gender }}</td>
+                <td id="taken"> {{ animal.taken_at }} </td>
+                
+            </tr>
+            
+            {% endif %}
             {% endfor %}
         </table>
         {% endif %}

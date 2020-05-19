@@ -31,24 +31,21 @@
                 
         <table>
             <tr>
-                <th>Shelter-ID</th>
                 <th>Vorname</th>
                 <th>Nachname</th>
-                <th>Geschlecht</th>
-                <th>Geburtstag</th>
+                <th>Shelter-ID</th>
+                <th>Änderungen</th>
             </tr>
             <!-- Braucht keine For, kann ja nur 1 Eintrag sein-->
                 <tr>
-                    <td>{{ tasks.content }}</td>
-                    <td>{{ tasks.firstname }}</td>
+                    <td>{{ volus.lastname }}</td>
+                    <td>{{ volus.firstname }}</td>
+                    <td>{{ volus.shelter}}</td>
                     <td>
-                        <a href="/delete/{{tasks.id}}">Delete</a>
+                        <a href="/delete/{{volus.id}}">Delete</a>
                         <br>
-                        <a href="/update/{{tasks.id}}">Update</a>
+                        <a href="/update/{{volus.id}}">Update</a>
                     </td>
-                    <td>"Dummy"</td>
-
-
                 </tr>
             
         </table>
