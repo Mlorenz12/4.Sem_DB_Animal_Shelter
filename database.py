@@ -361,7 +361,8 @@ def UC3():
     else:
         animals = Animals.query.order_by(Animals.taken_at.desc()).all()
         shelters = Shelters.query.order_by(Shelters.id).all()
-        return render_template('UC3Tiere.html', animals=animals, shelters=shelters)
+        species = Species.query.order_by(Species.id).all()
+        return render_template('UC3Tiere.html', animals=animals, shelters=shelters, species=species)
 
 if __name__ == "__main__":
     app.run(debug=True)
