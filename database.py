@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_bootstrap import Bootstrap
 
+from sqlalchemy import text
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///production.db'
 db = SQLAlchemy(app)
@@ -267,13 +268,19 @@ def update(id):
 
 @app.route('/UC1', methods=['POST', 'GET'])
 def UC1():
-
-    shelters = Shelters.query.order_by(Shelters.id).all()
-    #adr = Addresses.query.order_by(Addresses.id).all()
-    #shelter_adr = select([Shelters, Addresses]).where(Shelters.c.addresses == addresses.c.id)
-    adr = db.session.query(Addresses).join(Shelters).filter(Addresses.id == Shelters.address).distinct()
     
-    return render_template('UC1Anfahrt.html', places=shelters, adrs=adr)
+    sql = text('select shelters.shelter_name, a.city,a.zip_code,a.street,a.number from shelters, addresses as a \
+                where a.id == shelters.address')
+    query = db.engine.execute(sql)
+    result = [row for row in query]
+    
+    '''
+    The select statement gets all the relevant information from the tabels shelters and addresses
+    by querying the needed columens where the ID of addresses is equal
+    to the forgein key written in shelters.addresses
+    '''
+
+    return render_template('UC1Anfahrt.html', places=result[:])
 
 @app.route('/UC2', methods=['POST', 'GET'])
 def UC2():
@@ -317,7 +324,10 @@ def UC2Eintrag():
                     request.form['nachname'],
                     request.form['Password']]
     else:
-        volus = Volunteers.query.order_by(Volunteers.lastname).first()
+        sql = text('select v.shelter_name, a.city,a.zip_code,a.street,a.number from volunteers as v, addresses as a\
+                    where a.id == shelters.address')
+        query = db.engine.execute(sql)
+        result = [row for row in query]
         return render_template('UC2Eintrag.html', volus=volus)
         
 
