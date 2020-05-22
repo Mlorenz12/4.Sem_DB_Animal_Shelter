@@ -1,45 +1,43 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Task Master</title>
+<title>Start</title>
+<link rel="stylesheet" href="../static/css/UC1.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 {% endblock %}
 
 {% block body %}
-<div class="content">
-    <h1 style="text-align: center">Best Helpers ever</h1>
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center">There are no Volunteers! :(</h4>
-    {% else %}
-    <table>
-        <tr>
-            <th>Helper</th>
-            <th>Helper</th>
-            <th>Shelter</th>
-            <th>Action</th>
-        </tr>
-        {% for task in tasks %}
-            <tr>
-                <td>{{ task.firstname }}</td>
-                <td>{{ task.lastname }}</td>
-                <td>{{ task.shelter }}</td>
-                <td>
-                    <a href="/delete/{{task.id}}">Delete</a>
-                    <br>
-                    <a href="/update/{{task.id}}">Update</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
 
-    <!--
-    auskommentier weil es auf der Startseite keinen Zweck mehr erfüllt
-    <div class="form">
-        <form action="/" method="POST">
-            <input type="text" name="content" id="content">
-            <input type="submit" value="Don't use">
-        </form>
+<div style="padding-bottom: 15cm;">
+    <div style="padding-left: 1cm; padding-top: .5cm;">
+        <div class="container">
+            <h1>Aktuelles</h1>
+            <div class="row">
+                <div class="col-lg-2">
+                    Hello world
+                </div>
+                <div class="col-lg-2">
+                    Hello world
+                </div>
+                <div class="col-lg-2">
+                    test
+                </div>
+            </div>
+        </div>
+    
+        <div class=""></div>
+        <div style="text-align: right"><img src="https://www.deine-tierwelt.de/magazin/wp-content/uploads/sites/2/2014/09/Britisch-Kurzhaar-1000x570.jpg" alt="Britische Kurzhaarkatze" width="200" ></div>
+        <h3>Momentane Situation durch Corona</h3>
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <br>
+        <img src="https://einfachtierisch.de/media/cache/article_teaser/cms/2017/04/malinois-belgischer-schaeferhund-und-deutscher-schaeferhund-sitzen-nebeneinander-Eudyptula-shutterstock-492077767.jpg?464838" alt="Malinois" width="500" >
+        <h3>Öffnungszeiten</h3><br>
+        <h3>Helferfest</h3>
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
     </div>
-    -->
 </div>
+
+<br><br>
+
 {% endblock %}
