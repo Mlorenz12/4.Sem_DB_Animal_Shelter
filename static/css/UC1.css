@@ -1,5 +1,5 @@
 li {
-  color: black;
+  color: white;
   float: left;
   position: relative;
   padding: 10px 20px;
@@ -7,7 +7,7 @@ li {
 }
 
 li::after {
-  background-color: black;
+  background-color: white;
   content: "";
   width: 0;
   height: 5px;
@@ -34,7 +34,7 @@ ul {
 
 
 .navbar-light .navbar-nav .nav-link {
-  color: rgba(0, 0, 0, 0.69);
+  color: white;
 }
 
 h3 {
