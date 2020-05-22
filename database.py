@@ -269,7 +269,6 @@ def UC1():
     
     return render_template('UC1Anfahrt.html', places=shelters, adrs=adr)
 
-
 @app.route('/UC2', methods=['POST', 'GET'])
 def UC2():
 
