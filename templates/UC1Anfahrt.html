@@ -14,9 +14,7 @@
     </div>
     <div class="content">
         <h2 style="text-align: center">Kontakt</h2>
-        {% if places|length < 1 %}
-        <h4 style="text-align: center">Leider ist hier ein Fehler aufgetreten, wir kümmern uns darum.</h4>
-        {% else %}
+        
         <table>
             <tr>
                 <th>Name</th>
@@ -25,17 +23,17 @@
                 <th>Straße</th>
                 <th>Hausnummer</th>
             </tr>
-            {% for adr in adrs %}
+            {% for place in places %}
             <tr>
-                <td>{{ places.shelter_name }}</td>
-                <td>{{ adr.zip_code }}</td>
-                <td>{{ adr.city }}</td>
-                <td>{{ adr.street }}</td>
-                <td>{{ adr.number }}</td>
+                <td>{{ place.shelter_name }}</td>
+                <td>{{ place.zip_code }}</td>
+                <td>{{ place.city }}</td>
+                <td>{{ place.street }}</td>
+                <td>{{ place.number }}</td>
             </tr>
             {% endfor %}
         </table>
-        {% endif %}
+        
     </div>
 </div>
 
