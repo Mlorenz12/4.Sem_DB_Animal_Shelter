@@ -32,23 +32,25 @@
                 <th>Name</th>
                 <th>Spezies</th>
                 <th>Geschlecht</th>
-                <th>Bei uns seit</th>
+                <th nowrap>Bei uns seit</th>
                 <th>Wo</th>
             </tr>
             {% for animal in animals %}
                 {% if animal.taken_at == none %}
                 <tr>
                     <td>{{ animal.animal_name }}</td>
-                    <td>{{ animal.species_id }}</td>
+                    {% for spe in species %}
+                        {% if spe.id == animal.species_id %}
+                            <td nowrap>{{ spe.species_name }}</td>
+                        {% endif %}
+                    {% endfor %}
+
                     <td>{{ animal.gender }}</td>
-                    <script>
-                        var brought_in = Stringsplit({{ "2015 Hallo" }})
-                        document.getElementById("brought").innerHTML = brought_in;
-                    </script>
-                    <td id="brought"> </td>
+                    
+                    <td nowrap>{{ animal.brought_in}} </td>
                     {% for shelter in shelters %}
                         {% if shelter.id == animal.shelter %}
-                            <td>{{ shelter.shelter_name }}</td>
+                            <td nowrap>{{ shelter.shelter_name }}</td>
                         {% endif %}
                     {% endfor %}
                     
@@ -69,7 +71,11 @@
             {% if animal.taken_at != none %}
             <tr>
                 <td>{{ animal.animal_name }}</td>
-                <td>{{ animal.species_id }}</td>
+                {% for spe in species %}
+                    {% if spe.id == animal.species_id %}
+                        <td nowrap>{{ spe.species_name }}</td>
+                    {% endif %}
+                {% endfor %}
                 <td>{{ animal.gender }}</td>
                 <td id="taken"> {{ animal.taken_at }} </td>
                 
