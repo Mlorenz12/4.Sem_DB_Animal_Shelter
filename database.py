@@ -1,10 +1,12 @@
 from flask import Flask, render_template, url_for, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///production.db'
 db = SQLAlchemy(app)
+bootstrap = Bootstrap(app)
 
 # one person (relationship) can have many pets (ForeignKey)
 
@@ -231,6 +233,10 @@ def index():
         volus = Volunteers.query.order_by(Volunteers.lastname).all()
         return render_template('index.html', tasks=volus)
 
+
+@app.route('/', methods=['POST', 'GET'])
+def Start():
+        return render_template('index.html')
 
 @app.route('/delete/<int:id>') #Funktioniert!
 def delete(id):
