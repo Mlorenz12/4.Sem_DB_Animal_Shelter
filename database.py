@@ -311,17 +311,31 @@ def UC2():
     
 @app.route('/UC2Eintrag', methods=['POST', 'GET'])
 def UC2Eintrag():
-    volu_data = ["","",""]
+    volu_data = ["Ihre Vorname","Ihr Nachname","Das Tierheim in dem Sie helfen"]
     if request.method == 'POST':
         volu_data= [request.form['vorname'],
                     request.form['nachname'],
                     request.form['Password']]
-    else:
-        sql = text('select v.shelter_name, a.city,a.zip_code,a.street,a.number from volunteers as v, addresses as a\
-                    where a.id == shelters.address')
-        query = db.engine.execute(sql)
+        sql = text('select v.id, v.firstname,v.lastname, s.shelter_name from volunteers as v, shelters as s\
+                    where v.firstname == :fn \
+                    and v.lastname == :ln \
+                    and v.password == :pd \
+                    and s.id == v.shelter')
+        query = db.engine.execute(sql, fn = volu_data[0], ln= volu_data[1], pd= volu_data[2])
         result = [row for row in query]
-        return render_template('UC2Eintrag.html', volus=volus)
+
+        return render_template('UC2Eintrag.html', volus=result)
+
+    else:
+        sql = text('select v.id, v.firstname,v.lastname, s.shelter_name from volunteers as v, shelters as s\
+                    where v.firstname == :fn \
+                    and v.lastname == :ln \
+                    and v.password == :pd \
+                    and s.id == v.shelter')
+        query = db.engine.execute(sql, fn = volu_data[0], ln= volu_data[1], pd= volu_data[2])
+        result = [row for row in query]
+
+        return render_template('UC2Eintrag.html', volus=result)
         
 
 @app.route('/UC3', methods=['POST', 'GET'])

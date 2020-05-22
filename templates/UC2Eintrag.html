@@ -33,19 +33,20 @@
             <tr>
                 <th>Vorname</th>
                 <th>Nachname</th>
-                <th>Shelter-ID</th>
+                <th>Shelter</th>
                 <th>Änderungen</th>
             </tr>
-            <!-- Braucht keine For, kann ja nur 1 Eintrag sein-->
+                {% for volu in volus %}
                 <tr>
-                    <td>{{ volus.lastname }}</td>
-                    <td>{{ volus.firstname }}</td>
-                    <td>{{ volus.shelter}}</td>
+                    <td>{{ volu.firstname }}</td>
+                    <td>{{ volu.lastname }}</td>
+                    <td>{{ volu.shelter_name}}</td>
                     <td>
-                        <a href="/delete/{{volus.id}}">Delete</a>
+                        <a href="/delete/{{volu.id}}">Delete</a>
                         <br>
-                        <a href="/update/{{volus.id}}">Update</a>
+                        <a href="/update/{{volu.id}}">Update</a>
                     </td>
+                {% endfor %}
                 </tr>
             
         </table>
