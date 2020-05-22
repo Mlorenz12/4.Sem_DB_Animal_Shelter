@@ -3,7 +3,6 @@
 {% block head %}
 <title>Helfer</title>
 <link rel="stylesheet" href="../static/css/UC2.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 {% endblock %}
 
@@ -11,15 +10,15 @@
 
 <div style="padding-bottom: 10cm">
     <div style="padding-left: 1cm; padding-top: .5cm;">
-        <h1>Du möchtest gerne ehrenamtlich mithelfen?</h1>
-        <h2>Hier kannst du dich eintragen</h2>
-        <h3>Wenn du bereits ehrenamtlicher Helfer bist, klicke <a href="/UC2Eintrag">hier</a></h3>
+        <h1 style="text-align: center; padding-bottom: 1cm;">Du möchtest gerne ehrenamtlich mithelfen?</h1>
+        <h3>Hier kannst du dich eintragen</h3>
+        <h3>Wenn du bereits ehrenamtlicher Helfer bist, klicke <a style="color: black; text-decoration: underline" href="/UC2Eintrag">hier</a></h3>
     </div>
     
     <div class="form" style="margin-left: 2cm;">
         <form action="/UC2" method="POST">
             <label class="label" for="niederlassung">An dieser Niederlassung möchte ich helfen.</label><br>
-            <select name="niederlassung" id="niederlassung">
+            <select style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" name="niederlassung" id="niederlassung">
                 <option value=1>München</option>
                 <option value=2>Berlin</option>
                 <option value=3>Mannheim</option>
@@ -30,13 +29,13 @@
             <label class="label" for="nachname">Nachname</label><br>
             <input type="text" name="nachname" id="nachname"><br><br>
             <label class="label" for="gender">Geschlecht</label><br>
-            <select name="gender" id="gender">
+            <select style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" name="gender" id="gender">
                 <option value="m">männlich</option>
                 <option value="w">weiblich</option>
                 <option value="d">divers</option>
             </select><br><br>
             <label class="label" for="date">Geburtsdatum</label><br>
-            <input type="date" id="date" name="Datum"><br><br>
+            <input style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" type="date" id="date" name="Datum"><br><br>
             <label class="label" for="password1">Ihr individueller Zugangsschlüssel</label><br>
             <input type="password" name="Password" id="password1"><br><br>
             <label class="label" for="password2">Zugangsschlüssel wiederholen</label><br>
