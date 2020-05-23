@@ -6,11 +6,16 @@
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center">Hier kannst du ändern in welchem Tierheim du helfen möchtest.</h1>
+    <h3 style="text-align: center">Hier kannst du ändern in welchem Tierheim du helfen möchtest.</h3>
 
     <div class="form">
         <form action="/update/{{task.id}}" method="POST">
-            <input type="text" name="content" id="content" value="{{task.content}}">
+            <select name="content" id="content">
+                <option value=1>München</option>
+                <option value=2>Berlin</option>
+                <option value=3>Mannheim</option>
+                <option value=4>Düsseldorf</option>
+            </select><br><br>
             <input type="submit" value="Update">
         </form>
     </div>
