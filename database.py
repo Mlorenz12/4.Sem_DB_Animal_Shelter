@@ -302,16 +302,16 @@ def UC2Eintrag():
         query = db.engine.execute(sql, fn = volu_data[0], ln= volu_data[1], pd= volu_data[2])
         result = [row for row in query]
 
-    '''
-    Both queries in the if-statement are the same except if: gets data returned by the web-form
-    and else: just uses the dummy data provided above
-    This is a dynamic query so the ":<something>" in the sql.text get replaced with real data when
-    calling the query
-    This statement combines 2 tables in a manner that the provided information by user has to be correct 
-    (like it is written in the volunteers table)
-    and then the forgein key for the shelter is represented with the name of the shelter provided by the
-    table shelter itself
-    '''
+        '''
+        Both queries in the if-statement are the same except if: gets data returned by the web-form
+        and else: just uses the dummy data provided above
+        This is a dynamic query so the ":<something>" in the sql.text get replaced with real data when
+        calling the query
+        This statement combines 2 tables in a manner that the provided information by user has to be correct 
+        (like it is written in the volunteers table)
+        and then the forgein key for the shelter is represented with the name of the shelter provided by the
+        table shelter itself
+        '''
 
         return render_template('UC2Eintrag.html', volus=result)
         
