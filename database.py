@@ -29,11 +29,6 @@ suppliershelter = db.Table('supplier_shelter',
     db.Column('shelter_id', db.Integer, db.ForeignKey('shelters.id'))
 )
 
-#function which returns a string when you add a new row to the table
-###     def __repr__(self):
-###          return '<THING %r>' % self.id
-#here I return the id of the object created, so u can work with it after creation
-
 class Animals(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     animal_name = db.Column(db.String(20), nullable=False)
@@ -200,42 +195,7 @@ class Vets(db.Model):
 ## Überlegen ob die DB nicht komplett in ein anderes File umgelagert wird
 ## Variablen der Funktionen und Querys müssen noch angepasst werden
 
-@app.route('/', methods=['POST', 'GET'])
-def index():
-    if request.method == 'POST':
-        pass
-            #method to convert from '2015-01-02T00:00' to 2015, 1, 2, 0, 0
-    #        date_in = request.form['Datum']
-    #        date_out = datetime(*[int(v) for v in date_in.replace('T', '-').replace(':', '-').split('-')])
-    #
-    #        volu_data= [request.form['niederlassung'],
-    #                    request.form['vorname'],
-    #                    request.form['nachname'],
-    #                    request.form['gender'],
-    #                    date_out,
-    #                    request.form['Password'],
-    #                    request.form['Password2']]
-    #
-    #        new_volu = Volunteers(firstname=volu_data[1],
-    #                            lastname=volu_data[2],
-    #                            gender=volu_data[3],
-    #                            birthday=volu_data[4],
-    #                            password=volu_data[5],
-    #                            shelter=volu_data[0])
-    #
-    #        try:
-    #            db.session.add(new_volu)
-    #            db.session.commit()
-    #            return redirect('/')
-    #        except:
-    #            return 'There was an issue adding your task'
-
-    else:
-        volus = Volunteers.query.order_by(Volunteers.lastname).all()
-        return render_template('index.html', tasks=volus)
-
-
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/')
 def Start():
         return render_template('index.html')
 
@@ -341,6 +301,17 @@ def UC2Eintrag():
                     and s.id == v.shelter')
         query = db.engine.execute(sql, fn = volu_data[0], ln= volu_data[1], pd= volu_data[2])
         result = [row for row in query]
+
+    '''
+    Both queries in the if-statement are the same except if: gets data returned by the web-form
+    and else: just uses the dummy data provided above
+    This is a dynamic query so the ":<something>" in the sql.text get replaced with real data when
+    calling the query
+    This statement combines 2 tables in a manner that the provided information by user has to be correct 
+    (like it is written in the volunteers table)
+    and then the forgein key for the shelter is represented with the name of the shelter provided by the
+    table shelter itself
+    '''
 
         return render_template('UC2Eintrag.html', volus=result)
         
