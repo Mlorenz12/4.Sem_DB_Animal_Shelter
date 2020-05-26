@@ -12,7 +12,7 @@ bootstrap = Bootstrap(app)
 # one person (relationship) can have many pets (ForeignKey)
 
 # Sammlung der Many-to-Many relationships
-## This markiert die Table mit dem Backref
+## This marks the tables with the backrefs
 
 animalfood = db.Table('animal_food',
     db.Column('animal_id', db.Integer, db.ForeignKey('animals.id')), # This
@@ -57,7 +57,7 @@ class Species(db.Model):
     def __repr__(self):
       return '<Species %r>' % self.id
 
-class Takers(db.Model): #im Modell vgl. mit Animal_Record
+class Takers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), nullable=False)
     last_name  = db.Column(db.String(20), nullable=False)
@@ -69,7 +69,6 @@ class Takers(db.Model): #im Modell vgl. mit Animal_Record
     def __repr__(self):
       return '<Takers %r>' % self.id
     
-
 class Addresses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     country_code = db.Column(db.String(2), nullable=False)
@@ -112,7 +111,6 @@ class Shelters(db.Model):
     def __repr__(self):
       return '<Shelters %r>' % self.id
 
-
 class Managers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), nullable=False)
@@ -139,8 +137,6 @@ class Volunteers(db.Model):
     def __repr__(self):
       return '<Volunteers %r>' % self.id
 
-
-##Diese Klasse nochmal überdenken als Weak-Entity mit einer Kombination aus den F-Keys und einem Timestamp als P-Key
 class Donations(db.Model):
     amount = db.Column(db.Integer, nullable=False)
     shelter = db.Column(db.Integer, db.ForeignKey('shelters.id'), nullable=False, primary_key=True)
@@ -175,7 +171,6 @@ class Suppliers(db.Model):
     def __repr__(self):
       return '<Suppliers %r>' % self.id
     
-
 class Vets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), nullable=False)
@@ -190,16 +185,11 @@ class Vets(db.Model):
     def __repr__(self):
       return '<Vets %r>' % self.id
 
-
-# Start der eigentlichen Funktionen der Applikation
-## Überlegen ob die DB nicht komplett in ein anderes File umgelagert wird
-## Variablen der Funktionen und Querys müssen noch angepasst werden
-
 @app.route('/')
 def Start():
         return render_template('index.html')
 
-@app.route('/delete/<int:id>') #Funktioniert!
+@app.route('/delete/<int:id>')
 def delete(id):
     task_to_delete = Volunteers.query.get_or_404(id)
 
