@@ -8,41 +8,52 @@
 
 {% block body %}
 
-<div style="padding-bottom: 10cm">
+<div style="padding-bottom: 2cm">
     <div style="padding-left: 1cm; padding-top: .5cm;">
         <h1 style="text-align: center; padding-bottom: 1cm;">Du möchtest gerne ehrenamtlich mithelfen?</h1>
-        <h3>Hier kannst du dich eintragen</h3>
-        <h3>Wenn du bereits ehrenamtlicher Helfer bist, klicke <a style="color: black; text-decoration: underline" href="/UC2Eintrag">hier</a></h3>
     </div>
+    <div class="row" style="width: 100%;">
+        <div class="col-lg-8" style="padding-left: 2cm;">
+            <h3>Hier kannst du dich eintragen</h3>
+            <h3>Wenn du bereits ehrenamtlicher Helfer bist, klicke <a style="color: black; text-decoration: underline" href="/UC2Eintrag">hier</a></h3>
     
-    <div class="form" style="margin-left: 2cm;">
-        <form action="/UC2" method="POST">
-            <label class="label" for="niederlassung">An dieser Niederlassung möchte ich helfen.</label><br>
-            <select style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" name="niederlassung" id="niederlassung">
-                <option value=1>München</option>
-                <option value=2>Berlin</option>
-                <option value=3>Mannheim</option>
-                <option value=4>Düsseldorf</option>
-            </select><br><br>
-            <label class="label" for="vorname">Vorname</label><br>
-            <input type="text" name="vorname" id="vorname"><br><br>
-            <label class="label" for="nachname">Nachname</label><br>
-            <input type="text" name="nachname" id="nachname"><br><br>
-            <label class="label" for="gender">Geschlecht</label><br>
-            <select style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" name="gender" id="gender">
-                <option value="m">männlich</option>
-                <option value="w">weiblich</option>
-                <option value="d">divers</option>
-            </select><br><br>
-            <label class="label" for="date">Geburtsdatum</label><br>
-            <input style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" type="date" id="date" name="Datum"><br><br>
-            <label class="label" for="password1">Ihr individueller Zugangsschlüssel</label><br>
-            <input type="password" name="Password" id="password1"><br><br>
-            <label class="label" for="password2">Zugangsschlüssel wiederholen</label><br>
-            <input type="password" name="Password2" id="password2"><br><br>
-            <input type="submit" value="Absenden" class="btn btn-dark">
-        </form>
+            <div class="form" style="margin-left: 2cm;">
+                <form action="/UC2" method="POST">
+                    <label class="label" for="niederlassung">An dieser Niederlassung möchte ich helfen.</label><br>
+                    <select style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" name="niederlassung" id="niederlassung">
+                        <option value=1>München</option>
+                        <option value=2>Berlin</option>
+                        <option value=3>Mannheim</option>
+                        <option value=4>Düsseldorf</option>
+                    </select><br><br>
+                    <label class="label" for="vorname">Vorname</label><br>
+                    <input type="text" name="vorname" id="vorname"><br><br>
+                    <label class="label" for="nachname">Nachname</label><br>
+                    <input type="text" name="nachname" id="nachname"><br><br>
+                    <label class="label" for="gender">Geschlecht</label><br>
+                    <select style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" name="gender" id="gender">
+                        <option value="m">männlich</option>
+                        <option value="w">weiblich</option>
+                        <option value="d">divers</option>
+                    </select><br><br>
+                    <label class="label" for="date">Geburtsdatum</label><br>
+                    <input style="width: 4.8cm; height: 0.8cm; border-radius: 0.05cm;" type="date" id="date" name="Datum"><br><br>
+                    <label class="label" for="password1">Ihr individueller Zugangsschlüssel</label><br>
+                    <input type="password" name="Password" id="password1"><br><br>
+                    <label class="label" for="password2">Zugangsschlüssel wiederholen</label><br>
+                    <input type="password" name="Password2" id="password2"><br><br>
+                    <input type="submit" value="Absenden" class="btn btn-dark">
+                </form>
+            </div>
+        
+        </div>
+        <div class="col-lg-4">
+            <img width="350" src="https://einfachtierisch.de/media/cache/default/cms/2016/06/silbergraue-tabby-katze-geniesst-streicheleinheiten-von-ihrem-lieblingsmensch-Renata-Apanaviciene-shutterstock-412276255.jpg" alt=""><br><br>
+            <img width="350" src="https://hund.info/wp-content/uploads/2015/05/geochaching-mit-hund.jpg" alt=""><br><br>
+            <img width="350" src="https://lh3.googleusercontent.com/proxy/zy9kWAJLGBx2WacN80jHjPYrqIeIVv2bIUNYlimEAZwhZpY3hah02fXH15J7vGclCqJiLTe0AieMgBoenAFC0uKfnpPQC4-aHmyug1PGuIBMQ_zWDET9KKAbdLum9r6z1wvAV4K2e1vJEgI6d_g2W8wjjDbC_ALGUtJPvGwbL3gCGdhpkhQxeWpiib2VjWym9WlD7OSwoV7FBdm_g5IpVRn7o-hipqFNQEpU796aX0ZlPz0" alt="">
+        </div>
     </div>
+
 </div>
 {% endblock %}
 
