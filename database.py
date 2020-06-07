@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_bootstrap import Bootstrap
 
 from sqlalchemy import text
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///production.db'
 db = SQLAlchemy(app)
@@ -44,7 +45,7 @@ class Animals(db.Model):
     
 
     def __repr__(self):
-      return '<Animal %r>' % self.id
+      return '<Animals %r>' % self.id
     
 class Species(db.Model):
     id = db.Column(db.Integer, primary_key=True)
