@@ -98,3 +98,7 @@ VALUES (12, "Karl", "Ochse", "m", "1954-12-12 23:45:00", 1, 2);
     in the code all this data gets filed by a submission form
     and we get the name, birthday etc. from a POST request
 */
+
+
+
+SELECT * FROM 
